@@ -1,0 +1,60 @@
+body { width: 380px; max-height: 580px; }
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 8px;
+}
+h1 { font-size: 15px; margin: 0; flex: 1; }
+h2 { font-size: 12px; margin: 0 0 6px; color: var(--fg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.count {
+  background: var(--chip);
+  color: var(--danger);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+button.icon { border: 0; padding: 4px 8px; font-size: 15px; line-height: 1; background: transparent; }
+button.icon:hover { background: var(--bg-hover); }
+.mode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+main { padding: 10px 14px; }
+.empty { text-align: center; padding: 18px 0 10px; }
+.empty p { margin: 0; color: var(--fg-muted); }
+.wide { width: 100%; padding: 8px; }
+ul { list-style: none; margin: 0; padding: 0; }
+.groups { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.group { background: var(--bg-soft); border-radius: var(--radius); padding: 6px; }
+.group-head { display: flex; justify-content: space-between; padding: 2px 6px 4px; font-weight: 600; }
+.group-head .host { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tab { display: flex; align-items: center; border-radius: 6px; }
+.tab:hover { background: var(--bg-hover); }
+.tab-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 5px 6px;
+}
+.tab-main:hover { background: transparent; }
+.favicon { flex: none; border-radius: 3px; }
+.text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.title, .meta { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta { font-size: 11px; }
+.close { color: var(--fg-muted); }
+.close:hover { color: var(--danger); }
+.undo { border-top: 1px solid var(--border); padding: 10px 14px; }
+.undo li { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.undo-btn { padding: 3px 10px; flex: none; }
+footer { padding: 6px 14px 10px; font-size: 11px; text-align: center; }
+footer:empty { display: none; }

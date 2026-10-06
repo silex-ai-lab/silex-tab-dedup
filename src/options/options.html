@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Tab Dedup</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="../../icons/icon-48.png" alt="" width="36" height="36" />
+        <div>
+          <h1 data-i18n="optionsTitle">Tab Dedup settings</h1>
+          <p class="muted" data-i18n="optionsSubtitle">Changes save automatically.</p>
+        </div>
+      </header>
+
+      <section>
+        <h2 data-i18n="secBehaviour">Behaviour</h2>
+        <div class="row">
+          <label for="mode" data-i18n="modeLabel">When a duplicate opens</label>
+          <select id="mode" data-setting="mode">
+            <option value="auto" data-i18n="modeAutoLong">Close it and switch to the existing tab</option>
+            <option value="ask" data-i18n="modeAskLong">Ask me with a notification</option>
+            <option value="off" data-i18n="modeOffLong">Only count it on the badge</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="scope" data-i18n="scopeLabel">Look for duplicates</label>
+          <select id="scope" data-setting="scope">
+            <option value="all" data-i18n="scopeAll">Across all windows</option>
+            <option value="window" data-i18n="scopeWindow">Within each window</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="keep" data-i18n="keepLabel">Which tab to keep</label>
+          <select id="keep" data-setting="keep">
+            <option value="older" data-i18n="keepOlder">The one opened first</option>
+            <option value="newer" data-i18n="keepNewer">The one opened last</option>
+          </select>
+        </div>
+        <label class="check"><input type="checkbox" data-setting="protectPinned" /><span data-i18n="protectPinned">Never close pinned tabs</span></label>
+        <label class="check"><input type="checkbox" data-setting="skipIncognito" /><span data-i18n="skipIncognito">Ignore incognito windows</span></label>
+        <label class="check"><input type="checkbox" data-setting="notifyOnClose" /><span data-i18n="notifyOnClose">Show a notification with Undo after each automatic close</span></label>
+        <label class="check"><input type="checkbox" data-setting="showBadge" /><span data-i18n="showBadge">Show the duplicate count on the toolbar icon</span></label>
+      </section>
+
+      <section>
+        <h2 data-i18n="secMatching">Which URLs count as the same page</h2>
+        <label class="check"><input type="checkbox" data-setting="stripTracking" /><span data-i18n="stripTracking">Ignore tracking parameters (utm_*, fbclid, gclid …)</span></label>
+        <label class="check"><input type="checkbox" data-setting="ignoreWww" /><span data-i18n="ignoreWww">Ignore “www.” in the domain</span></label>
+        <label class="check"><input type="checkbox" data-setting="ignoreTrailingSlash" /><span data-i18n="ignoreTrailingSlash">Ignore a trailing slash in the path</span></label>
+        <label class="check"><input type="checkbox" data-setting="ignoreHash" /><span data-i18n="ignoreHash">Ignore the #fragment</span></label>
+        <p class="hint muted" data-i18n="ignoreHashHint">Leave off for apps such as Gmail that use the fragment to tell pages apart.</p>
+        <label class="check"><input type="checkbox" data-setting="ignoreQuery" /><span data-i18n="ignoreQuery">Ignore the whole query string (?…)</span></label>
+        <label class="check"><input type="checkbox" data-setting="ignoreCase" /><span data-i18n="ignoreCase">Ignore upper/lower case in the path</span></label>
+      </section>
+
+      <section>
+        <h2 data-i18n="secWhitelist">Never treat as duplicates</h2>
+        <p class="hint muted" data-i18n="whitelistHint">One pattern per line.</p>
+        <ul class="hint muted examples">
+          <li><code>mail.google.com</code> <span data-i18n="patHost">a domain and its subdomains</span></li>
+          <li><code>github.com/*/pull/*</code> <span data-i18n="patGlob">* matches anything</span></li>
+          <li><code>/^https:\/\/x\.com\//</code> <span data-i18n="patRegex">a regular expression between slashes</span></li>
+        </ul>
+        <textarea id="whitelist" rows="6" spellcheck="false"></textarea>
+        <p id="whitelistError" class="error" hidden></p>
+      </section>
+
+      <section>
+        <h2 data-i18n="secShortcut">Keyboard shortcut</h2>
+        <p><span data-i18n="shortcutLabel">Close all duplicates:</span> <kbd id="shortcut">—</kbd>
+          <button id="editShortcut" class="link" data-i18n="editShortcut">Change</button></p>
+      </section>
+
+      <p id="saved" class="saved" role="status" aria-live="polite"></p>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

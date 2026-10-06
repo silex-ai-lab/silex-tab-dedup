@@ -1,0 +1,203 @@
+{
+  "extName": {
+    "message": "Tab Dedup — 关闭重复标签页"
+  },
+  "extDescription": {
+    "message": "打开重复标签页时自动关闭并切到已有的那个，可撤销。数据不离开浏览器。"
+  },
+  "cmdCloseDuplicates": {
+    "message": "关闭所有重复标签页"
+  },
+  "badgeTitleSome": {
+    "message": "Tab Dedup：$1 个重复标签页"
+  },
+  "badgeTitleNone": {
+    "message": "Tab Dedup：没有重复标签页"
+  },
+  "askTitle": {
+    "message": "这个页面已经打开了"
+  },
+  "askSwitch": {
+    "message": "切过去并关掉这个"
+  },
+  "askKeep": {
+    "message": "两个都保留"
+  },
+  "closedTitle": {
+    "message": "已关闭一个重复标签页"
+  },
+  "undo": {
+    "message": "撤销"
+  },
+  "popupTitle": {
+    "message": "重复标签页"
+  },
+  "openOptions": {
+    "message": "设置"
+  },
+  "modeLabel": {
+    "message": "打开重复页时"
+  },
+  "modeAuto": {
+    "message": "关闭"
+  },
+  "modeAsk": {
+    "message": "询问"
+  },
+  "modeOff": {
+    "message": "仅标记"
+  },
+  "emptyTitle": {
+    "message": "没有重复标签页"
+  },
+  "recentlyClosed": {
+    "message": "最近关闭"
+  },
+  "closeTab": {
+    "message": "关闭这个标签页"
+  },
+  "agoSeconds": {
+    "message": "$1 秒前"
+  },
+  "agoMinutes": {
+    "message": "$1 分钟前"
+  },
+  "agoHours": {
+    "message": "$1 小时前"
+  },
+  "tabsInGroup": {
+    "message": "$1 个"
+  },
+  "windowN": {
+    "message": "窗口 $1"
+  },
+  "pinned": {
+    "message": "已固定"
+  },
+  "active": {
+    "message": "当前"
+  },
+  "kept": {
+    "message": "有意保留"
+  },
+  "andMore": {
+    "message": "等 $1 个"
+  },
+  "sentBack": {
+    "message": "已返回上一页"
+  },
+  "closedLabel": {
+    "message": "已关闭"
+  },
+  "closeAllN": {
+    "message": "关闭 $1 个重复标签页"
+  },
+  "shortcutHint": {
+    "message": "快捷键 $1：关闭所有重复标签页"
+  },
+  "optionsTitle": {
+    "message": "Tab Dedup 设置"
+  },
+  "optionsSubtitle": {
+    "message": "修改会自动保存。"
+  },
+  "secBehaviour": {
+    "message": "行为"
+  },
+  "modeAutoLong": {
+    "message": "关掉它并切到已有的标签页"
+  },
+  "modeAskLong": {
+    "message": "用通知询问我"
+  },
+  "modeOffLong": {
+    "message": "只在图标上计数"
+  },
+  "scopeLabel": {
+    "message": "查找范围"
+  },
+  "scopeAll": {
+    "message": "所有窗口"
+  },
+  "scopeWindow": {
+    "message": "每个窗口各自查找"
+  },
+  "keepLabel": {
+    "message": "保留哪一个"
+  },
+  "keepOlder": {
+    "message": "先打开的"
+  },
+  "keepNewer": {
+    "message": "后打开的"
+  },
+  "protectPinned": {
+    "message": "从不关闭已固定的标签页"
+  },
+  "skipIncognito": {
+    "message": "忽略无痕窗口"
+  },
+  "notifyOnClose": {
+    "message": "每次自动关闭后显示带「撤销」的通知"
+  },
+  "showBadge": {
+    "message": "在工具栏图标上显示重复数量"
+  },
+  "secMatching": {
+    "message": "哪些网址算同一个页面"
+  },
+  "stripTracking": {
+    "message": "忽略追踪参数（utm_*、fbclid、gclid 等）"
+  },
+  "ignoreWww": {
+    "message": "忽略域名里的「www.」"
+  },
+  "ignoreTrailingSlash": {
+    "message": "忽略路径末尾的斜杠"
+  },
+  "ignoreHash": {
+    "message": "忽略 # 后面的部分"
+  },
+  "ignoreHashHint": {
+    "message": "Gmail 等应用用 # 区分不同页面，建议保持关闭。"
+  },
+  "ignoreQuery": {
+    "message": "忽略整个查询字符串（? 之后）"
+  },
+  "ignoreCase": {
+    "message": "路径不区分大小写"
+  },
+  "secWhitelist": {
+    "message": "从不视为重复"
+  },
+  "whitelistHint": {
+    "message": "每行一个规则。"
+  },
+  "patHost": {
+    "message": "一个域名及其子域名"
+  },
+  "patGlob": {
+    "message": "* 匹配任意内容"
+  },
+  "patRegex": {
+    "message": "写在两个斜杠之间的正则表达式"
+  },
+  "secShortcut": {
+    "message": "快捷键"
+  },
+  "shortcutLabel": {
+    "message": "关闭所有重复标签页："
+  },
+  "editShortcut": {
+    "message": "修改"
+  },
+  "saved": {
+    "message": "已保存"
+  },
+  "invalidPatterns": {
+    "message": "以下规则无效，已忽略：$1"
+  },
+  "notSet": {
+    "message": "未设置"
+  }
+}

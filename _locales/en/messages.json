@@ -1,0 +1,203 @@
+{
+  "extName": {
+    "message": "Tab Dedup — close duplicate tabs"
+  },
+  "extDescription": {
+    "message": "Closes duplicate tabs as they open and switches you to the tab you already had. Undo any close. No data leaves your browser."
+  },
+  "cmdCloseDuplicates": {
+    "message": "Close all duplicate tabs"
+  },
+  "badgeTitleSome": {
+    "message": "Tab Dedup: $1 duplicate tabs"
+  },
+  "badgeTitleNone": {
+    "message": "Tab Dedup: no duplicate tabs"
+  },
+  "askTitle": {
+    "message": "This page is already open"
+  },
+  "askSwitch": {
+    "message": "Switch to it and close this one"
+  },
+  "askKeep": {
+    "message": "Keep both"
+  },
+  "closedTitle": {
+    "message": "Closed a duplicate tab"
+  },
+  "undo": {
+    "message": "Undo"
+  },
+  "popupTitle": {
+    "message": "Duplicate tabs"
+  },
+  "openOptions": {
+    "message": "Settings"
+  },
+  "modeLabel": {
+    "message": "When a duplicate opens"
+  },
+  "modeAuto": {
+    "message": "Close"
+  },
+  "modeAsk": {
+    "message": "Ask"
+  },
+  "modeOff": {
+    "message": "Only flag"
+  },
+  "emptyTitle": {
+    "message": "No duplicate tabs"
+  },
+  "recentlyClosed": {
+    "message": "Recently closed"
+  },
+  "closeTab": {
+    "message": "Close this tab"
+  },
+  "agoSeconds": {
+    "message": "$1 s ago"
+  },
+  "agoMinutes": {
+    "message": "$1 min ago"
+  },
+  "agoHours": {
+    "message": "$1 h ago"
+  },
+  "tabsInGroup": {
+    "message": "$1 tabs"
+  },
+  "windowN": {
+    "message": "Window $1"
+  },
+  "pinned": {
+    "message": "Pinned"
+  },
+  "active": {
+    "message": "Current"
+  },
+  "kept": {
+    "message": "Kept on purpose"
+  },
+  "andMore": {
+    "message": "and $1 more"
+  },
+  "sentBack": {
+    "message": "Sent back"
+  },
+  "closedLabel": {
+    "message": "Closed"
+  },
+  "closeAllN": {
+    "message": "Close $1 duplicates"
+  },
+  "shortcutHint": {
+    "message": "Shortcut: $1 closes all duplicates"
+  },
+  "optionsTitle": {
+    "message": "Tab Dedup settings"
+  },
+  "optionsSubtitle": {
+    "message": "Changes save automatically."
+  },
+  "secBehaviour": {
+    "message": "Behaviour"
+  },
+  "modeAutoLong": {
+    "message": "Close it and switch to the existing tab"
+  },
+  "modeAskLong": {
+    "message": "Ask me with a notification"
+  },
+  "modeOffLong": {
+    "message": "Only count it on the badge"
+  },
+  "scopeLabel": {
+    "message": "Look for duplicates"
+  },
+  "scopeAll": {
+    "message": "Across all windows"
+  },
+  "scopeWindow": {
+    "message": "Within each window"
+  },
+  "keepLabel": {
+    "message": "Which tab to keep"
+  },
+  "keepOlder": {
+    "message": "The one opened first"
+  },
+  "keepNewer": {
+    "message": "The one opened last"
+  },
+  "protectPinned": {
+    "message": "Never close pinned tabs"
+  },
+  "skipIncognito": {
+    "message": "Ignore incognito windows"
+  },
+  "notifyOnClose": {
+    "message": "Show a notification with Undo after each automatic close"
+  },
+  "showBadge": {
+    "message": "Show the duplicate count on the toolbar icon"
+  },
+  "secMatching": {
+    "message": "Which URLs count as the same page"
+  },
+  "stripTracking": {
+    "message": "Ignore tracking parameters (utm_*, fbclid, gclid …)"
+  },
+  "ignoreWww": {
+    "message": "Ignore “www.” in the domain"
+  },
+  "ignoreTrailingSlash": {
+    "message": "Ignore a trailing slash in the path"
+  },
+  "ignoreHash": {
+    "message": "Ignore the #fragment"
+  },
+  "ignoreHashHint": {
+    "message": "Leave off for apps such as Gmail that use the fragment to tell pages apart."
+  },
+  "ignoreQuery": {
+    "message": "Ignore the whole query string (?…)"
+  },
+  "ignoreCase": {
+    "message": "Ignore upper/lower case in the path"
+  },
+  "secWhitelist": {
+    "message": "Never treat as duplicates"
+  },
+  "whitelistHint": {
+    "message": "One pattern per line."
+  },
+  "patHost": {
+    "message": "a domain and its subdomains"
+  },
+  "patGlob": {
+    "message": "* matches anything"
+  },
+  "patRegex": {
+    "message": "a regular expression between slashes"
+  },
+  "secShortcut": {
+    "message": "Keyboard shortcut"
+  },
+  "shortcutLabel": {
+    "message": "Close all duplicates:"
+  },
+  "editShortcut": {
+    "message": "Change"
+  },
+  "saved": {
+    "message": "Saved"
+  },
+  "invalidPatterns": {
+    "message": "These patterns are invalid and are ignored: $1"
+  },
+  "notSet": {
+    "message": "not set"
+  }
+}

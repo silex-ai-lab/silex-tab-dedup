@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Tab Dedup</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <img src="../../icons/icon-32.png" alt="" width="20" height="20" />
+      <h1 data-i18n="popupTitle">Duplicate tabs</h1>
+      <span id="count" class="count" hidden></span>
+      <button id="options" class="icon" data-i18n-title="openOptions" aria-label="Options">⚙</button>
+    </header>
+
+    <section class="mode">
+      <span class="muted" data-i18n="modeLabel">When a duplicate opens</span>
+      <div class="segmented" role="group" id="mode">
+        <button data-mode="auto" data-i18n="modeAuto">Close</button>
+        <button data-mode="ask" data-i18n="modeAsk">Ask</button>
+        <button data-mode="off" data-i18n="modeOff">Only flag</button>
+      </div>
+    </section>
+
+    <main>
+      <div id="empty" class="empty" hidden>
+        <p data-i18n="emptyTitle">No duplicate tabs</p>
+      </div>
+      <div id="dupes" hidden>
+        <button id="closeAll" class="primary wide"></button>
+        <ul id="groups" class="groups"></ul>
+      </div>
+    </main>
+
+    <section id="undoSection" class="undo" hidden>
+      <h2 data-i18n="recentlyClosed">Recently closed</h2>
+      <ul id="undoList"></ul>
+    </section>
+
+    <footer class="muted" id="shortcut"></footer>
+
+    <template id="groupTpl">
+      <li class="group">
+        <div class="group-head"><span class="host"></span><span class="muted n"></span></div>
+        <ul class="tabs"></ul>
+      </li>
+    </template>
+    <template id="tabTpl">
+      <li class="tab">
+        <button class="tab-main">
+          <img class="favicon" alt="" width="16" height="16" />
+          <span class="text"><span class="title"></span><span class="meta muted"></span></span>
+        </button>
+        <button class="icon close" data-i18n-title="closeTab" aria-label="Close">×</button>
+      </li>
+    </template>
+    <template id="undoTpl">
+      <li>
+        <span class="text"><span class="title"></span><span class="meta muted"></span></span>
+        <button class="undo-btn" data-i18n="undo">Undo</button>
+      </li>
+    </template>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

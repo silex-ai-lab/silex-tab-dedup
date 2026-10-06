@@ -18,6 +18,9 @@ export const SCHEMA_VERSION = 1;
  * @property {boolean} stripTracking
  * @property {boolean} ignoreTrailingSlash
  * @property {string[]} whitelist           patterns that are never treated as duplicates
+ * @property {string[]} groupRules          patterns; all URLs matching one pattern count as one page
+ * @property {string[]} hostAliases         host globs such as 'yandex.*' whose hosts count as one
+ * @property {boolean} matchTitle           tabs with the same title are duplicates too (popup, badge, shortcut)
  * @property {boolean} notifyOnClose        show a notification with Undo after each auto-close
  * @property {boolean} showBadge
  */
@@ -38,6 +41,9 @@ export const DEFAULT_SETTINGS = Object.freeze({
   stripTracking: true,
   ignoreTrailingSlash: true,
   whitelist: [],
+  groupRules: [],
+  hostAliases: [],
+  matchTitle: false,
   notifyOnClose: false,
   showBadge: true,
 });
@@ -58,7 +64,7 @@ export function migrateSettings(stored) {
   /** @type {Record<string, unknown>} */
   const src = stored && typeof stored === 'object' ? /** @type {any} */ (stored) : {};
   /** @type {any} */
-  const out = { ...DEFAULT_SETTINGS, whitelist: [...DEFAULT_SETTINGS.whitelist] };
+  const out = { ...DEFAULT_SETTINGS, whitelist: [], groupRules: [], hostAliases: [] };
   for (const [name, def] of Object.entries(DEFAULT_SETTINGS)) {
     if (name === 'schemaVersion' || !(name in src)) continue;
     const value = src[name];

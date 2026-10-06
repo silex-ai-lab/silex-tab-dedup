@@ -1,4 +1,4 @@
-body { width: 380px; max-height: 580px; }
+body { width: 400px; max-height: 590px; }
 header {
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@ header {
   padding: 12px 14px 8px;
 }
 h1 { font-size: 15px; margin: 0; flex: 1; }
-h2 { font-size: 12px; margin: 0 0 6px; color: var(--fg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+h2 { font-size: 11px; margin: 0 0 6px; color: var(--fg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
 .count {
   background: var(--chip);
   color: var(--danger);
@@ -16,25 +16,50 @@ h2 { font-size: 12px; margin: 0 0 6px; color: var(--fg-muted); font-weight: 600;
 }
 button.icon { border: 0; padding: 4px 8px; font-size: 15px; line-height: 1; background: transparent; }
 button.icon:hover { background: var(--bg-hover); }
+.search { padding: 0 14px 8px; }
+.search input {
+  width: 100%;
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 10px;
+}
+nav { display: flex; gap: 2px; padding: 0 10px; border-bottom: 1px solid var(--border); }
+nav button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: 6px 8px;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+nav button:hover { background: transparent; color: var(--fg); }
+nav button[aria-selected='true'] { color: var(--accent); border-bottom-color: var(--accent); }
+nav .n { font-weight: 400; }
+nav.searching { display: none; }
+.view { padding: 10px 14px; }
 .mode {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 14px 10px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
 }
-main { padding: 10px 14px; }
-.empty { text-align: center; padding: 18px 0 10px; }
-.empty p { margin: 0; color: var(--fg-muted); }
+.empty { text-align: center; padding: 14px 0 6px; margin: 0; color: var(--fg-muted); }
 .wide { width: 100%; padding: 8px; }
 ul { list-style: none; margin: 0; padding: 0; }
 .groups { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+#domains { margin-top: 0; }
 .group { background: var(--bg-soft); border-radius: var(--radius); padding: 6px; }
-.group-head { display: flex; justify-content: space-between; padding: 2px 6px 4px; font-weight: 600; }
-.group-head .host { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.group-head { display: flex; align-items: center; gap: 6px; padding: 2px 6px 4px; font-weight: 600; }
+.group-head .host { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.group-head .close-group { padding: 2px 6px; color: var(--fg-muted); }
+.group-head .close-group:hover { color: var(--danger); }
 .tab { display: flex; align-items: center; border-radius: 6px; }
-.tab:hover { background: var(--bg-hover); }
+.tab:hover, .tab.selected { background: var(--bg-hover); }
 .tab-main {
   flex: 1;
   min-width: 0;
@@ -53,8 +78,17 @@ ul { list-style: none; margin: 0; padding: 0; }
 .meta { font-size: 11px; }
 .close { color: var(--fg-muted); }
 .close:hover { color: var(--danger); }
-.undo { border-top: 1px solid var(--border); padding: 10px 14px; }
-.undo li { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
-.undo-btn { padding: 3px 10px; flex: none; }
+.undo { border-top: 1px solid var(--border); margin-top: 12px; padding-top: 10px; }
+.undo li, .session { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.small-btn { padding: 3px 10px; flex: none; }
+.flat .tab-main { padding: 6px; }
+.save-row { display: flex; gap: 8px; }
+.save-row button { flex: 1; }
+.check { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.check.small { font-size: 12px; color: var(--fg-muted); margin: 8px 0 4px; }
+#sessions { margin-top: 6px; }
+.session + .session { border-top: 1px solid var(--border); }
+.more { margin: 10px 0 0; text-align: center; font-size: 12px; }
+.more a { color: var(--accent); }
 footer { padding: 6px 14px 10px; font-size: 11px; text-align: center; }
 footer:empty { display: none; }

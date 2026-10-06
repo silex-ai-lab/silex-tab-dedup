@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Tab Dedup sessions</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../options/options.css" />
+    <link rel="stylesheet" href="sessions.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="../../icons/icon-48.png" alt="" width="36" height="36" />
+        <div>
+          <h1 data-i18n="sessionsTitle">Saved sessions</h1>
+          <p class="muted" data-i18n="sessionsSubtitle">Stored only in this browser. Export them to keep a copy.</p>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <button id="saveAll" class="primary" data-i18n="saveAll">Save all windows</button>
+        <span class="spacer"></span>
+        <button id="exportHtml" data-i18n="exportHtml">Export HTML</button>
+        <button id="exportJson" data-i18n="exportJson">Export JSON</button>
+        <label class="button" for="importFile" data-i18n="importFile">Import…</label>
+        <input id="importFile" type="file" accept=".json,.html,.htm,.txt,application/json,text/html,text/plain" hidden />
+      </div>
+      <p class="hint muted" data-i18n="importHint">Import accepts this page's JSON export, a browser bookmarks HTML file, a Tab Options export or a plain list of URLs.</p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+
+      <p id="none" class="none muted" data-i18n="noSessions" hidden>No saved sessions yet</p>
+      <div id="list"></div>
+    </main>
+
+    <template id="sessionTpl">
+      <section class="session">
+        <div class="head">
+          <input class="name" aria-label="Name" />
+          <span class="meta muted"></span>
+          <button class="restore primary" data-i18n="restore">Restore</button>
+          <button class="delete" data-i18n="delete">Delete</button>
+        </div>
+        <div class="windows"></div>
+      </section>
+    </template>
+    <template id="windowTpl">
+      <div class="window">
+        <h3 class="muted"></h3>
+        <ul></ul>
+      </div>
+    </template>
+    <template id="tabTpl">
+      <li>
+        <img class="favicon" alt="" width="16" height="16" />
+        <a class="title" target="_blank" rel="noopener"></a>
+        <span class="pin muted" data-i18n="pinned" hidden>Pinned</span>
+        <button class="icon remove" data-i18n-title="removeFromSession" aria-label="Remove">×</button>
+      </li>
+    </template>
+
+    <script type="module" src="sessions.js"></script>
+  </body>
+</html>

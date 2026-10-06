@@ -29,9 +29,6 @@
   "undo": {
     "message": "Undo"
   },
-  "popupTitle": {
-    "message": "Duplicate tabs"
-  },
   "openOptions": {
     "message": "Settings"
   },
@@ -93,7 +90,7 @@
     "message": "Close $1 duplicates"
   },
   "shortcutHint": {
-    "message": "Shortcut: $1 closes all duplicates"
+    "message": "$1 closes all duplicates"
   },
   "optionsTitle": {
     "message": "Tab Dedup settings"
@@ -199,5 +196,137 @@
   },
   "notSet": {
     "message": "not set"
+  },
+  "cmdOpenPopup": {
+    "message": "Open Tab Dedup (search tabs)"
+  },
+  "searchPlaceholder": {
+    "message": "Search open tabs  ↑ ↓ Enter"
+  },
+  "navDupes": {
+    "message": "Duplicates"
+  },
+  "navAll": {
+    "message": "All tabs"
+  },
+  "navSessions": {
+    "message": "Sessions"
+  },
+  "noResults": {
+    "message": "No matching tabs"
+  },
+  "closeSite": {
+    "message": "Close all $1 tabs from this site"
+  },
+  "windowsN": {
+    "message": "$1 windows"
+  },
+  "shortcutOpen": {
+    "message": "$1 opens this"
+  },
+  "saveWindow": {
+    "message": "Save this window"
+  },
+  "saveAll": {
+    "message": "Save all windows"
+  },
+  "saveAndClose": {
+    "message": "Close the tabs after saving"
+  },
+  "noSessions": {
+    "message": "No saved sessions yet"
+  },
+  "manageSessions": {
+    "message": "Manage, import and export sessions"
+  },
+  "restore": {
+    "message": "Restore"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "deleteSession": {
+    "message": "Delete this session"
+  },
+  "removeFromSession": {
+    "message": "Remove from this session"
+  },
+  "sessionsTitle": {
+    "message": "Saved sessions"
+  },
+  "sessionsSubtitle": {
+    "message": "Stored only in this browser. Export them to keep a copy."
+  },
+  "exportHtml": {
+    "message": "Export HTML"
+  },
+  "exportJson": {
+    "message": "Export JSON"
+  },
+  "importFile": {
+    "message": "Import…"
+  },
+  "importHint": {
+    "message": "Import accepts this page's JSON export, a browser bookmarks HTML file, a Tab Options export or a plain list of URLs."
+  },
+  "restored": {
+    "message": "Opened $1 tabs; $2 were already open."
+  },
+  "deleted": {
+    "message": "Deleted “$1”."
+  },
+  "savedSession": {
+    "message": "Saved “$1”."
+  },
+  "imported": {
+    "message": "Imported $1 sessions."
+  },
+  "importNothing": {
+    "message": "No links found in that file."
+  },
+  "secAdvanced": {
+    "message": "Advanced matching"
+  },
+  "groupRulesTitle": {
+    "message": "Treat as one page"
+  },
+  "groupRulesHint": {
+    "message": "Every URL matching the same line counts as the same page. Same pattern syntax as above."
+  },
+  "hostAliasesTitle": {
+    "message": "Sites with several domains"
+  },
+  "hostAliasesHint": {
+    "message": "One domain pattern per line, such as yandex.* (yandex.ru = yandex.com). Pages still need the same path."
+  },
+  "matchTitle": {
+    "message": "Also treat tabs with the same title as duplicates"
+  },
+  "matchTitleHint": {
+    "message": "Applies to the badge, the popup list and the shortcut, not to automatic closing."
+  },
+  "secBackup": {
+    "message": "Back up settings"
+  },
+  "backupHint": {
+    "message": "Settings already sync through your browser account. Export a file to move them elsewhere."
+  },
+  "exportSettings": {
+    "message": "Export settings"
+  },
+  "importSettings": {
+    "message": "Import settings…"
+  },
+  "resetSettings": {
+    "message": "Reset to defaults"
+  },
+  "importBadFile": {
+    "message": "That file is not valid JSON."
+  },
+  "importedSettings": {
+    "message": "Settings imported."
+  },
+  "resetDone": {
+    "message": "Settings reset to defaults."
   }
 }

@@ -1,8 +1,12 @@
 import { invalidPatterns } from '../core/patterns.js';
+import { DEFAULT_SETTINGS, migrateSettings } from '../core/settings.js';
+import { downloadText, today } from '../shared/download.js';
 import { loadSettings, localizePage, saveSettings, t } from '../shared/store.js';
 
 const $ = (id) => document.getElementById(id);
 let savedTimer = 0;
+/** Lists edited but not saved yet; a refresh from storage must not overwrite them. */
+const dirtyLists = new Set();
 
 function flashSaved() {
   const el = $('saved');
@@ -23,12 +27,16 @@ function fill(settings) {
     if (el instanceof HTMLInputElement && el.type === 'checkbox') el.checked = settings[name];
     else /** @type {HTMLSelectElement} */ (el).value = settings[name];
   }
-  /** @type {HTMLTextAreaElement} */ ($('whitelist')).value = settings.whitelist.join('\n');
+  for (const el of document.querySelectorAll('[data-list]')) {
+    const name = el.getAttribute('data-list');
+    if (!dirtyLists.has(name)) /** @type {HTMLTextAreaElement} */ (el).value = settings[name].join('\n');
+  }
 }
 
-function checkWhitelist(lines) {
+function checkPatterns(name, lines) {
+  const el = document.querySelector(`[data-error="${name}"]`);
+  if (!el) return;
   const bad = invalidPatterns(lines);
-  const el = $('whitelistError');
   el.hidden = bad.length === 0;
   el.textContent = bad.length ? t('invalidPatterns', [bad.join(', ')]) : '';
 }
@@ -50,14 +58,48 @@ for (const el of document.querySelectorAll('[data-setting]')) {
   });
 }
 
-let whitelistTimer = 0;
-$('whitelist').addEventListener('input', () => {
-  clearTimeout(whitelistTimer);
-  whitelistTimer = setTimeout(() => {
-    const lines = /** @type {HTMLTextAreaElement} */ ($('whitelist')).value.split('\n').map((l) => l.trim()).filter(Boolean);
-    checkWhitelist(lines);
-    save({ whitelist: lines });
-  }, 400);
+for (const el of document.querySelectorAll('[data-list]')) {
+  const name = el.getAttribute('data-list');
+  let timer = 0;
+  el.addEventListener('input', () => {
+    dirtyLists.add(name);
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      const lines = /** @type {HTMLTextAreaElement} */ (el).value.split('\n').map((l) => l.trim()).filter(Boolean);
+      checkPatterns(name, lines);
+      await save({ [name]: lines });
+      dirtyLists.delete(name);
+    }, 400);
+  });
+}
+
+$('exportSettings').addEventListener('click', async () => {
+  const settings = await loadSettings();
+  downloadText(JSON.stringify(settings, null, 2), `tab-dedup-settings-${today()}.json`, 'application/json');
+});
+$('importSettings').addEventListener('change', async (e) => {
+  const input = /** @type {HTMLInputElement} */ (e.target);
+  const file = input.files?.[0];
+  if (!file) return;
+  input.value = '';
+  let data;
+  try {
+    data = JSON.parse(await file.text());
+  } catch {
+    $('backupStatus').textContent = t('importBadFile');
+    return;
+  }
+  const next = migrateSettings(data);
+  await chrome.storage.sync.set({ settings: next });
+  dirtyLists.clear();
+  fill(next);
+  $('backupStatus').textContent = t('importedSettings');
+});
+$('resetSettings').addEventListener('click', async () => {
+  await chrome.storage.sync.set({ settings: migrateSettings(DEFAULT_SETTINGS) });
+  dirtyLists.clear();
+  fill(await loadSettings());
+  $('backupStatus').textContent = t('resetDone');
 });
 
 $('editShortcut').addEventListener('click', () => chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }));
@@ -65,6 +107,5 @@ $('editShortcut').addEventListener('click', () => chrome.tabs.create({ url: 'chr
 // Another window (or the popup's mode switch) may change settings while this page is open.
 chrome.storage.onChanged.addListener(async (changes, area) => {
   if (area !== 'sync' || !changes.settings) return;
-  if (document.activeElement?.id === 'whitelist') return;
   fill(await loadSettings());
 });

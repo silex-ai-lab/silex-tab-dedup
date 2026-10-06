@@ -16,9 +16,11 @@ English · [简体中文](README.zh-CN.md)
 </div>
 
 <p align="center">
-  <img src="docs/popup-light.png" width="300" alt="Popup listing duplicate tabs" />
+  <img src="docs/popup-light.png" width="260" alt="Popup listing duplicate tabs" />
   &nbsp;
-  <img src="docs/popup-dark.png" width="300" alt="The same popup in dark mode" />
+  <img src="docs/popup-search-light.png" width="260" alt="Quick search over open tabs" />
+  &nbsp;
+  <img src="docs/popup-dark.png" width="260" alt="The popup in dark mode" />
 </p>
 
 ## Why
@@ -36,9 +38,14 @@ English · [简体中文](README.zh-CN.md)
 | **Three modes** | *Close* (default) closes the duplicate; *Ask* shows a notification with *Switch* / *Keep both*; *Only flag* just counts duplicates on the badge. |
 | **Which tab stays** | Pinned tabs first, then the older tab (or the newer one, if you prefer). Pinned tabs are never closed. |
 | **Popup** | Duplicates grouped by page, *Close N duplicates* button, close or jump to any tab, and a *Recently closed* list with **Undo**. |
-| **Shortcut** | <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> closes every duplicate. You can change it at `chrome://extensions/shortcuts`. |
+| **Quick search** | <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> opens the popup with the cursor in the search box. Type a few words, use <kbd>↑</kbd> <kbd>↓</kbd>, and press <kbd>Enter</kbd> to switch to that tab. |
+| **All tabs by site** | Every open tab grouped by site, biggest first. Close a whole site in one click, and undo it in one click. |
+| **Sessions** | Save this window or all windows, optionally closing the tabs. Restoring reopens each saved window but skips pages that are already open. Rename sessions, remove single tabs, and export them as JSON or as a bookmarks HTML file that any browser can import. Import accepts our JSON, bookmark files, Tab Options exports or a plain list of URLs. |
+| **Shortcuts** | <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> closes every duplicate. You can change both shortcuts at `chrome://extensions/shortcuts`. |
 | **Matching** | Ignore tracking parameters, `www.`, trailing slash, `#fragment`, the whole query string, or case. The fragment is compared by default, because apps like Gmail route on it. |
 | **Never treat as duplicates** | A domain (`mail.google.com`), a glob (`github.com/*/pull/*`) or a `/regular expression/`. |
+| **Advanced matching** | *Treat as one page* rules (for example `youtube.com/watch*`), *sites with several domains* (`yandex.*`), and optional same-title matching for the popup and the shortcut. |
+| **Backup** | Settings sync through your browser account. They can also be exported to a JSON file, imported, or reset. |
 | **Scope** | Across all windows or within each window. Incognito tabs are never matched with normal ones and can be ignored entirely. |
 | **Languages** | English and Simplified Chinese. |
 
@@ -59,8 +66,9 @@ It also works in Edge, Brave, Vivaldi and Opera.
 | `tabs` | Read tab URLs and titles to find duplicates; close and focus tabs. |
 | `webNavigation` | Know when a tab navigates and how (a link vs. a reload, back/forward or restore), so that only new navigations are acted on. |
 | `sessions` | Undo: reopen a closed tab with its history. |
-| `storage` | Keep your settings (synced through your browser account) and the undo list (in memory only). |
+| `storage` | Keep your settings (synced through your browser account), saved sessions (this browser only) and the undo list (in memory only). |
 | `notifications` | *Ask* mode and the optional *Undo* notification. |
+| `favicon` | Show site icons in the popup and on the sessions page, from Chrome's own cache. |
 
 No host permissions and no content scripts: the extension cannot read or change what is on any page.
 

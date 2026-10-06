@@ -29,9 +29,6 @@
   "undo": {
     "message": "撤销"
   },
-  "popupTitle": {
-    "message": "重复标签页"
-  },
   "openOptions": {
     "message": "设置"
   },
@@ -93,7 +90,7 @@
     "message": "关闭 $1 个重复标签页"
   },
   "shortcutHint": {
-    "message": "快捷键 $1：关闭所有重复标签页"
+    "message": "$1 关闭所有重复标签页"
   },
   "optionsTitle": {
     "message": "Tab Dedup 设置"
@@ -199,5 +196,137 @@
   },
   "notSet": {
     "message": "未设置"
+  },
+  "cmdOpenPopup": {
+    "message": "打开 Tab Dedup（搜索标签页）"
+  },
+  "searchPlaceholder": {
+    "message": "搜索已打开的标签页  ↑ ↓ 回车"
+  },
+  "navDupes": {
+    "message": "重复"
+  },
+  "navAll": {
+    "message": "全部标签页"
+  },
+  "navSessions": {
+    "message": "会话"
+  },
+  "noResults": {
+    "message": "没有匹配的标签页"
+  },
+  "closeSite": {
+    "message": "关闭这个网站的全部 $1 个标签页"
+  },
+  "windowsN": {
+    "message": "$1 个窗口"
+  },
+  "shortcutOpen": {
+    "message": "$1 打开这里"
+  },
+  "saveWindow": {
+    "message": "保存当前窗口"
+  },
+  "saveAll": {
+    "message": "保存全部窗口"
+  },
+  "saveAndClose": {
+    "message": "保存后关闭这些标签页"
+  },
+  "noSessions": {
+    "message": "还没有保存的会话"
+  },
+  "manageSessions": {
+    "message": "管理、导入和导出会话"
+  },
+  "restore": {
+    "message": "恢复"
+  },
+  "delete": {
+    "message": "删除"
+  },
+  "deleteSession": {
+    "message": "删除这个会话"
+  },
+  "removeFromSession": {
+    "message": "从会话中移除"
+  },
+  "sessionsTitle": {
+    "message": "已保存的会话"
+  },
+  "sessionsSubtitle": {
+    "message": "只保存在这个浏览器里。需要备份请导出。"
+  },
+  "exportHtml": {
+    "message": "导出 HTML"
+  },
+  "exportJson": {
+    "message": "导出 JSON"
+  },
+  "importFile": {
+    "message": "导入…"
+  },
+  "importHint": {
+    "message": "可以导入本页导出的 JSON、浏览器书签 HTML、Tab Options 导出文件，或者一份网址列表。"
+  },
+  "restored": {
+    "message": "打开了 $1 个标签页，另有 $2 个已经开着。"
+  },
+  "deleted": {
+    "message": "已删除「$1」。"
+  },
+  "savedSession": {
+    "message": "已保存「$1」。"
+  },
+  "imported": {
+    "message": "导入了 $1 个会话。"
+  },
+  "importNothing": {
+    "message": "这个文件里没有找到链接。"
+  },
+  "secAdvanced": {
+    "message": "高级匹配"
+  },
+  "groupRulesTitle": {
+    "message": "视为同一个页面"
+  },
+  "groupRulesHint": {
+    "message": "匹配同一行规则的所有网址都算同一个页面。规则写法同上。"
+  },
+  "hostAliasesTitle": {
+    "message": "有多个域名的网站"
+  },
+  "hostAliasesHint": {
+    "message": "每行一个域名规则，例如 yandex.*（yandex.ru = yandex.com）。路径仍需相同。"
+  },
+  "matchTitle": {
+    "message": "标题相同的标签页也算重复"
+  },
+  "matchTitleHint": {
+    "message": "只用于图标计数、弹窗列表和快捷键，不会触发自动关闭。"
+  },
+  "secBackup": {
+    "message": "备份设置"
+  },
+  "backupHint": {
+    "message": "设置已通过浏览器账号同步。如需迁移到别处，可以导出文件。"
+  },
+  "exportSettings": {
+    "message": "导出设置"
+  },
+  "importSettings": {
+    "message": "导入设置…"
+  },
+  "resetSettings": {
+    "message": "恢复默认"
+  },
+  "importBadFile": {
+    "message": "这个文件不是有效的 JSON。"
+  },
+  "importedSettings": {
+    "message": "设置已导入。"
+  },
+  "resetDone": {
+    "message": "已恢复默认设置。"
   }
 }

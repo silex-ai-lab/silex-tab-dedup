@@ -1,7 +1,7 @@
 // Whitelist pattern syntax, shared by every rule list:
 //   github.com           bare host: matches github.com and any subdomain
-//   *.google.com/maps*   glob: '*' matches anything; tested against the full URL
-//                        and against the URL without its scheme
+//   *.google.com/maps*   glob: '*' matches anything; tested against the full URL,
+//                        the URL without its scheme, and that without 'www.'
 //   /^https:\/\/x\//i    regular expression, wrapped in slashes, optional flags
 
 /**
@@ -45,7 +45,11 @@ export function compilePattern(raw) {
   }
 
   const rx = new RegExp('^' + pattern.split('*').map(escapeRegExp).join('.*') + '$', 'i');
-  return (url) => rx.test(url) || rx.test(url.replace(/^[a-z][a-z0-9+.-]*:\/\//i, ''));
+  return (url) => {
+    if (rx.test(url)) return true;
+    const bare = url.replace(/^[a-z][a-z0-9+.-]*:\/\//i, '');
+    return rx.test(bare) || rx.test(bare.replace(/^www\./i, ''));
+  };
 }
 
 /**

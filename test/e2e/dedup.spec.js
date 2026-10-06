@@ -123,3 +123,21 @@ test('off mode only counts duplicates on the badge', async ({ ext, server }) => 
   expect(await until(async () => (await ext.badge()) === '2')).toBe(true);
   expect(await count(ext, url)).toBe(3);
 });
+
+test('a group rule makes different URLs one page', async ({ ext, server }) => {
+  await ext.settings({ groupRules: ['a.test*/watch*'] });
+  const first = server.url('a.test', '/watch?v=1');
+  await ext.open(first);
+  const second = await ext.open(server.url('a.test', '/watch?v=2'));
+  await until(async () => !(await ext.tabs()).some((t) => t.id === second));
+  expect(urlsOf(await ext.tabs())).toEqual([first]);
+});
+
+test('two tabs of one page opened at once end with one tab, in front', async ({ ext, server }) => {
+  const url = server.url('a.test', '/same');
+  const first = await ext.open(url, { active: false });
+  const second = await ext.open(url);
+  await until(async () => (await count(ext, url)) === 1);
+  expect([first, second]).toContain((await ext.tabs()).find((t) => t.url === url)?.id);
+  await expect.poll(async () => (await ext.tabs()).find((t) => t.url === url)?.active).toBe(true);
+});

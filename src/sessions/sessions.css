@@ -1,0 +1,32 @@
+main { max-width: 760px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+.toolbar .spacer { flex: 1; }
+.toolbar + .hint { margin: 0 0 16px; }
+.status { min-height: 1.4em; margin: 0 0 8px; color: var(--accent); }
+.none { text-align: center; padding: 32px 0; }
+.session .head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.session .name {
+  flex: 1;
+  min-width: 160px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 6px;
+}
+.session .name:hover, .session .name:focus { border-color: var(--border); background: var(--bg-soft); }
+.session .meta { font-size: 12px; }
+.window h3 { font-size: 12px; margin: 12px 0 4px; font-weight: 600; }
+.window ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.window li { display: flex; align-items: center; gap: 8px; padding: 3px 4px; border-radius: 6px; }
+.window li:hover { background: var(--bg-soft); }
+.window .title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--fg); text-decoration: none; }
+.window .title:hover { color: var(--accent); text-decoration: underline; }
+.window .favicon { flex: none; }
+.pin { font-size: 11px; }
+button.icon { border: 0; padding: 2px 8px; background: transparent; color: var(--fg-muted); font-size: 15px; }
+button.icon:hover { color: var(--danger); background: var(--bg-hover); }
+.delete:hover { color: var(--danger); }

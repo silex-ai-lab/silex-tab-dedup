@@ -42,6 +42,28 @@ const SUPPORTED_PROTOCOLS = new Set(['http:', 'https:', 'file:', 'chrome:', 'edg
  * @property {boolean} [ignoreTrailingSlash] treat /docs/ as /docs
  */
 
+/**
+ * A host alias rule: hosts matching `test` are compared as `canonical`.
+ * @typedef {{ test: RegExp, canonical: string }} HostAlias
+ */
+
+/**
+ * Compiles host alias patterns such as 'yandex.*' (yandex.ru = yandex.com).
+ * '*' matches any run of characters, dots included; the canonical host is the
+ * pattern with each '*' replaced by 'x'.
+ * @param {string[]} patterns
+ * @returns {HostAlias[]}
+ */
+export function compileHostAliases(patterns) {
+  return patterns
+    .map((p) => p.trim().toLowerCase())
+    .filter((p) => p && !p.startsWith('#') && /^[a-z0-9*.-]+$/.test(p))
+    .map((p) => ({
+      test: new RegExp('^' + p.split('*').map((s) => s.replace(/[.-]/g, '\\$&')).join('.*') + '$'),
+      canonical: p.replace(/\*/g, 'x'),
+    }));
+}
+
 function isTrackingParam(name) {
   const lower = name.toLowerCase();
   return TRACKING_PARAMS.some((p) => (typeof p === 'string' ? p === lower : p.test(lower)));
@@ -52,9 +74,10 @@ function isTrackingParam(name) {
  * treated as a duplicate (new tab page, about:blank, unsupported scheme, junk).
  * @param {string | undefined} url
  * @param {NormalizeOptions} [opts]
+ * @param {HostAlias[]} [aliases]
  * @returns {string | null}
  */
-export function normalizeUrl(url, opts = {}) {
+export function normalizeUrl(url, opts = {}, aliases = []) {
   if (!url || NEW_TAB_URLS.has(url)) return null;
   let u;
   try {
@@ -67,6 +90,8 @@ export function normalizeUrl(url, opts = {}) {
 
   let host = u.host; // already lower-cased and punycoded by URL
   if (opts.ignoreWww && host.startsWith('www.')) host = host.slice(4);
+  const alias = aliases.find((a) => a.test.test(u.hostname.replace(/^www\./, '')));
+  if (alias) host = alias.canonical + (u.port ? `:${u.port}` : '');
 
   let path = u.pathname;
   if (opts.ignoreTrailingSlash && path.length > 1 && path.endsWith('/')) {

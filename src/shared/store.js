@@ -8,12 +8,22 @@ export async function loadSettings() {
   return migrateSettings(settings);
 }
 
-/** @param {Partial<import('../core/settings.js').Settings>} patch */
-export async function saveSettings(patch) {
-  const current = await loadSettings();
-  const next = migrateSettings({ ...current, ...patch });
-  await chrome.storage.sync.set({ settings: next });
-  return next;
+let saving = Promise.resolve();
+
+/**
+ * Merges a patch into the stored settings. Saves from one page run one at a time,
+ * so two quick edits cannot overwrite each other.
+ * @param {Partial<import('../core/settings.js').Settings>} patch
+ */
+export function saveSettings(patch) {
+  const run = saving.then(async () => {
+    const current = await loadSettings();
+    const next = migrateSettings({ ...current, ...patch });
+    await chrome.storage.sync.set({ settings: next });
+    return next;
+  });
+  saving = run.catch(() => {});
+  return run;
 }
 
 /** Fills every [data-i18n] element's text and [data-i18n-title] tooltip from _locales. */
@@ -36,4 +46,12 @@ export function localizePage(root = document) {
 /** Shorthand for chrome.i18n.getMessage with a fallback for missing keys. */
 export function t(key, substitutions) {
   return chrome.i18n.getMessage(key, substitutions) || key;
+}
+
+/** Chrome's cached favicon for a page (needs the "favicon" permission). */
+export function faviconUrl(pageUrl, size = 16) {
+  const u = new URL(chrome.runtime.getURL('/_favicon/'));
+  u.searchParams.set('pageUrl', pageUrl);
+  u.searchParams.set('size', String(size));
+  return u.toString();
 }

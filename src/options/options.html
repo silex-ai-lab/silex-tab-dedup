@@ -65,14 +65,40 @@
           <li><code>github.com/*/pull/*</code> <span data-i18n="patGlob">* matches anything</span></li>
           <li><code>/^https:\/\/x\.com\//</code> <span data-i18n="patRegex">a regular expression between slashes</span></li>
         </ul>
-        <textarea id="whitelist" rows="6" spellcheck="false"></textarea>
-        <p id="whitelistError" class="error" hidden></p>
+        <textarea data-list="whitelist" rows="6" spellcheck="false"></textarea>
+        <p class="error" data-error="whitelist" hidden></p>
+      </section>
+
+      <section>
+        <h2 data-i18n="secAdvanced">Advanced matching</h2>
+        <h3 data-i18n="groupRulesTitle">Treat as one page</h3>
+        <p class="hint muted" data-i18n="groupRulesHint">Every URL matching the same line counts as the same page. Same pattern syntax as above.</p>
+        <textarea data-list="groupRules" rows="3" spellcheck="false" placeholder="youtube.com/watch*"></textarea>
+        <p class="error" data-error="groupRules" hidden></p>
+        <h3 data-i18n="hostAliasesTitle">Sites with several domains</h3>
+        <p class="hint muted" data-i18n="hostAliasesHint">One domain pattern per line, such as yandex.* (yandex.ru = yandex.com). Pages still need the same path.</p>
+        <textarea data-list="hostAliases" rows="3" spellcheck="false" placeholder="yandex.*"></textarea>
+        <label class="check"><input type="checkbox" data-setting="matchTitle" /><span data-i18n="matchTitle">Also treat tabs with the same title as duplicates</span></label>
+        <p class="hint muted" data-i18n="matchTitleHint">Applies to the badge, the popup list and the shortcut, not to automatic closing.</p>
       </section>
 
       <section>
         <h2 data-i18n="secShortcut">Keyboard shortcut</h2>
         <p><span data-i18n="shortcutLabel">Close all duplicates:</span> <kbd id="shortcut">—</kbd>
           <button id="editShortcut" class="link" data-i18n="editShortcut">Change</button></p>
+      </section>
+
+      <section>
+        <h2 data-i18n="secBackup">Back up settings</h2>
+        <p class="hint muted" data-i18n="backupHint">Settings already sync through your browser account. Export a file to move them elsewhere.</p>
+        <div class="buttons">
+          <button id="exportSettings" data-i18n="exportSettings">Export settings</button>
+          <label class="button" for="importSettings" data-i18n="importSettings">Import settings…</label>
+          <input id="importSettings" type="file" accept=".json,application/json" hidden />
+          <button id="resetSettings" data-i18n="resetSettings">Reset to defaults</button>
+        </div>
+        <p id="backupStatus" class="hint muted" role="status"></p>
+        <p class="hint muted"><a href="../sessions/sessions.html" data-i18n="manageSessions">Manage, import and export sessions</a></p>
       </section>
 
       <p id="saved" class="saved" role="status" aria-live="polite"></p>

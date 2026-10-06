@@ -9,40 +9,66 @@
   <body>
     <header>
       <img src="../../icons/icon-32.png" alt="" width="20" height="20" />
-      <h1 data-i18n="popupTitle">Duplicate tabs</h1>
+      <h1>Tab Dedup</h1>
       <span id="count" class="count" hidden></span>
       <button id="options" class="icon" data-i18n-title="openOptions" aria-label="Options">⚙</button>
     </header>
 
-    <section class="mode">
-      <span class="muted" data-i18n="modeLabel">When a duplicate opens</span>
-      <div class="segmented" role="group" id="mode">
-        <button data-mode="auto" data-i18n="modeAuto">Close</button>
-        <button data-mode="ask" data-i18n="modeAsk">Ask</button>
-        <button data-mode="off" data-i18n="modeOff">Only flag</button>
-      </div>
+    <div class="search">
+      <input id="search" type="search" autocomplete="off" spellcheck="false" autofocus data-i18n-placeholder="searchPlaceholder" placeholder="Search open tabs" />
+    </div>
+
+    <nav id="nav" role="tablist">
+      <button role="tab" data-view="dupes"><span data-i18n="navDupes">Duplicates</span> <span class="n" id="navDupesN"></span></button>
+      <button role="tab" data-view="all"><span data-i18n="navAll">All tabs</span> <span class="n" id="navAllN"></span></button>
+      <button role="tab" data-view="sessions"><span data-i18n="navSessions">Sessions</span> <span class="n" id="navSessionsN"></span></button>
+    </nav>
+
+    <section id="view-search" class="view" hidden>
+      <ul id="results" class="flat" role="listbox"></ul>
+      <p id="noResults" class="empty" data-i18n="noResults" hidden>No matching tabs</p>
     </section>
 
-    <main>
-      <div id="empty" class="empty" hidden>
-        <p data-i18n="emptyTitle">No duplicate tabs</p>
+    <section id="view-dupes" class="view" hidden>
+      <div class="mode">
+        <span class="muted" data-i18n="modeLabel">When a duplicate opens</span>
+        <div class="segmented" role="group" id="mode">
+          <button data-mode="auto" data-i18n="modeAuto">Close</button>
+          <button data-mode="ask" data-i18n="modeAsk">Ask</button>
+          <button data-mode="off" data-i18n="modeOff">Only flag</button>
+        </div>
       </div>
+      <p id="empty" class="empty" data-i18n="emptyTitle" hidden>No duplicate tabs</p>
       <div id="dupes" hidden>
         <button id="closeAll" class="primary wide"></button>
         <ul id="groups" class="groups"></ul>
       </div>
-    </main>
+      <div id="undoSection" class="undo" hidden>
+        <h2 data-i18n="recentlyClosed">Recently closed</h2>
+        <ul id="undoList"></ul>
+      </div>
+    </section>
 
-    <section id="undoSection" class="undo" hidden>
-      <h2 data-i18n="recentlyClosed">Recently closed</h2>
-      <ul id="undoList"></ul>
+    <section id="view-all" class="view" hidden>
+      <ul id="domains" class="groups"></ul>
+    </section>
+
+    <section id="view-sessions" class="view" hidden>
+      <div class="save-row">
+        <button id="saveWindow" class="primary" data-i18n="saveWindow">Save this window</button>
+        <button id="saveAll" data-i18n="saveAll">Save all windows</button>
+      </div>
+      <label class="check small"><input type="checkbox" id="saveClose" /><span data-i18n="saveAndClose">Close the tabs after saving</span></label>
+      <p id="noSessions" class="empty" data-i18n="noSessions" hidden>No saved sessions yet</p>
+      <ul id="sessions" class="flat"></ul>
+      <p class="more"><a href="../sessions/sessions.html" target="_blank" data-i18n="manageSessions">Manage, import and export sessions</a></p>
     </section>
 
     <footer class="muted" id="shortcut"></footer>
 
     <template id="groupTpl">
       <li class="group">
-        <div class="group-head"><span class="host"></span><span class="muted n"></span></div>
+        <div class="group-head"><span class="host"></span><span class="muted n"></span><button class="icon close-group" hidden>×</button></div>
         <ul class="tabs"></ul>
       </li>
     </template>
@@ -58,7 +84,14 @@
     <template id="undoTpl">
       <li>
         <span class="text"><span class="title"></span><span class="meta muted"></span></span>
-        <button class="undo-btn" data-i18n="undo">Undo</button>
+        <button class="small-btn" data-i18n="undo">Undo</button>
+      </li>
+    </template>
+    <template id="sessionTpl">
+      <li class="session">
+        <span class="text"><span class="title"></span><span class="meta muted"></span></span>
+        <button class="small-btn restore" data-i18n="restore">Restore</button>
+        <button class="icon close" data-i18n-title="deleteSession" aria-label="Delete">×</button>
       </li>
     </template>
 

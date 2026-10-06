@@ -10,6 +10,7 @@ import {
   pickKeeper,
   tabsToClose,
 } from './core/groups.js';
+import { buildSession, isSaveable, parseImport } from './core/sessions.js';
 import { loadSettings, t } from './shared/store.js';
 
 const UNDO_LIMIT = 20;
@@ -185,6 +186,8 @@ async function handleCommit(details) {
     const victims = tabsToClose(all, keeper, settings);
     if (!victims.length) return;
     entry = { id: newId(), at: Date.now(), kind: 'closed', tabs: victims.map(snapshot) };
+    // If the user was looking at a tab that is about to close, show them the kept one.
+    if (victims.some((v) => v.active)) await focusTab(keeper);
     await chrome.tabs.remove(victims.map((v) => v.id));
     await pushUndo(state, entry);
   } else {
@@ -325,14 +328,6 @@ async function closeAllDuplicates() {
   return victims.length;
 }
 
-async function closeOne(tabId) {
-  const tab = await chrome.tabs.get(tabId).catch(() => null);
-  if (!tab) return;
-  const state = await loadState();
-  await chrome.tabs.remove(tabId);
-  await pushUndo(state, { id: newId(), at: Date.now(), kind: 'closed', tabs: [snapshot(tab)] });
-}
-
 /** Reopens what an undo entry closed (or sends a tab forward again) and exempts it. */
 async function undo(state, entryId) {
   const entry = state.undo.find((e) => e.id === entryId);
@@ -388,6 +383,142 @@ async function undo(state, entryId) {
   return true;
 }
 
+/** Closes the given tabs as one undoable action (popup: "close all from this site"). */
+async function closeMany(tabIds) {
+  const tabs = (await Promise.all(tabIds.map((id) => chrome.tabs.get(id).catch(() => null)))).filter(Boolean);
+  if (!tabs.length) return 0;
+  const state = await loadState();
+  await keepWindowOpen(tabs);
+  await chrome.tabs.remove(tabs.map((tab) => tab.id));
+  await pushUndo(state, { id: newId(), at: Date.now(), kind: 'closed', tabs: tabs.map(snapshot) });
+  return tabs.length;
+}
+
+/**
+ * Closing every tab of every window would quit the browser. If the tabs about to be
+ * closed are all the tabs there are, open a new tab in the focused window first.
+ */
+async function keepWindowOpen(closing) {
+  const ids = new Set(closing.map((tab) => tab.id));
+  const all = await chrome.tabs.query({});
+  if (all.some((tab) => !ids.has(tab.id))) return;
+  const focused = await chrome.windows.getLastFocused().catch(() => null);
+  await chrome.tabs.create({ windowId: focused?.id ?? closing[0].windowId });
+}
+
+// ---------------------------------------------------------------------------
+// Saved sessions (chrome.storage.local, survive restarts)
+
+async function loadSessions() {
+  const { sessions } = await chrome.storage.local.get('sessions');
+  return Array.isArray(sessions) ? sessions : [];
+}
+
+function saveSessions(sessions) {
+  return chrome.storage.local.set({ sessions });
+}
+
+function defaultSessionName() {
+  return new Date().toLocaleString(chrome.i18n.getUILanguage(), { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+/**
+ * Saves the tabs of one window (or all windows) as a session, optionally closing them.
+ * @param {{ scope: 'window' | 'all', windowId?: number, name?: string, close?: boolean }} msg
+ */
+async function saveSession(msg) {
+  const tabs = await chrome.tabs.query(msg.scope === 'window' ? { windowId: msg.windowId } : {});
+  const name = msg.name?.trim() || defaultSessionName();
+  const session = buildSession(tabs, name, Date.now(), newId());
+  if (!session.windows.length) return null;
+  await saveSessions([session, ...(await loadSessions())]);
+  if (msg.close) {
+    const closing = tabs.filter((tab) => tab.url && isSaveable(tab.url));
+    await keepWindowOpen(closing);
+    await chrome.tabs.remove(closing.map((tab) => tab.id));
+  }
+  return session;
+}
+
+/**
+ * Reopens a session, one browser window per saved window. Pages that are already
+ * open are not opened again. Returns how many tabs were opened and how many skipped.
+ * @param {{ id: string, url?: string }} msg  url: open just this one tab
+ */
+async function restoreSession(msg) {
+  const session = (await loadSessions()).find((s) => s.id === msg.id);
+  if (!session) return { opened: 0, skipped: 0 };
+  const settings = await loadSettings();
+  const keyOf = makeKeyFn(settings);
+  const open = await chrome.tabs.query({});
+  const focused = await chrome.windows.getLastFocused().catch(() => null);
+  const openByKey = new Map(open.map((tab) => [keyOf(tab), tab]));
+  const keyFor = (url) => keyOf({ id: -1, windowId: focused?.id ?? -1, url });
+
+  if (msg.url) {
+    const existing = openByKey.get(keyFor(msg.url));
+    if (existing && keyFor(msg.url) !== null) {
+      await focusTab(existing);
+      return { opened: 0, skipped: 1 };
+    }
+    await chrome.tabs.create({ url: msg.url, windowId: focused?.id });
+    return { opened: 1, skipped: 0 };
+  }
+
+  let opened = 0;
+  let skipped = 0;
+  const seen = new Set();
+  for (const win of session.windows) {
+    const todo = win.tabs.filter((tab) => {
+      const key = keyFor(tab.url);
+      if (key !== null && (openByKey.has(key) || seen.has(key))) {
+        skipped++;
+        return false;
+      }
+      if (key !== null) seen.add(key);
+      return true;
+    });
+    if (!todo.length) continue;
+    const created = await chrome.windows.create({ url: todo.map((tab) => tab.url), focused: true });
+    opened += todo.length;
+    const createdTabs = created?.tabs ?? [];
+    for (const [i, tab] of todo.entries()) {
+      if (tab.pinned && createdTabs[i]) await chrome.tabs.update(createdTabs[i].id, { pinned: true });
+    }
+  }
+  return { opened, skipped };
+}
+
+async function deleteSession(msg) {
+  await saveSessions((await loadSessions()).filter((s) => s.id !== msg.id));
+}
+
+async function renameSession(msg) {
+  const name = String(msg.name ?? '').trim();
+  if (!name) return;
+  await saveSessions((await loadSessions()).map((s) => (s.id === msg.id ? { ...s, name } : s)));
+}
+
+/** Removes one tab from a saved session; drops windows and sessions left empty. */
+async function removeSessionTab(msg) {
+  const sessions = (await loadSessions())
+    .map((s) => {
+      if (s.id !== msg.id) return s;
+      const windows = s.windows
+        .map((w, wi) => ({ tabs: w.tabs.filter((_, ti) => !(wi === msg.window && ti === msg.tab)) }))
+        .filter((w) => w.tabs.length);
+      return { ...s, windows };
+    })
+    .filter((s) => s.windows.length);
+  await saveSessions(sessions);
+}
+
+async function importSessions(msg) {
+  const imported = parseImport(String(msg.text ?? ''), msg.name || defaultSessionName(), newId, Date.now());
+  if (imported.length) await saveSessions([...imported, ...(await loadSessions())]);
+  return imported.length;
+}
+
 /** Everything the popup renders, computed in one place. */
 async function getPopupState() {
   const settings = await loadSettings();
@@ -401,7 +532,6 @@ async function getPopupState() {
       windowId: tab.windowId,
       title: tab.title,
       url: tab.url || tab.pendingUrl,
-      favIconUrl: tab.favIconUrl,
       pinned: tab.pinned,
       active: tab.active,
       kept: exempt.has(String(tab.id)),
@@ -409,6 +539,14 @@ async function getPopupState() {
   }));
   return {
     settings,
+    tabs: tabs.map((tab) => ({
+      id: tab.id,
+      windowId: tab.windowId,
+      title: tab.title,
+      url: tab.url || tab.pendingUrl,
+      pinned: tab.pinned,
+      active: tab.active,
+    })),
     groups,
     count: countDuplicates(groups),
     windowCount: new Set(tabs.map((tab) => tab.windowId)).size,
@@ -477,12 +615,20 @@ chrome.commands.onCommand.addListener((command) => {
 const handlers = {
   getState: () => getPopupState(),
   closeAll: () => closeAllDuplicates(),
-  closeTab: (msg) => closeOne(msg.tabId),
+  closeTab: (msg) => closeMany([msg.tabId]),
   focusTab: async (msg) => {
     const tab = await chrome.tabs.get(msg.tabId).catch(() => null);
     if (tab) await focusTab(tab);
   },
   undo: async (msg) => undo(await loadState(), msg.id),
+  closeTabs: (msg) => closeMany(msg.tabIds),
+  listSessions: () => loadSessions(),
+  saveSession: (msg) => saveSession(msg),
+  restoreSession: (msg) => restoreSession(msg),
+  deleteSession: (msg) => deleteSession(msg),
+  renameSession: (msg) => renameSession(msg),
+  removeSessionTab: (msg) => removeSessionTab(msg),
+  importSessions: (msg) => importSessions(msg),
 };
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {

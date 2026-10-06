@@ -39,3 +39,15 @@ button.link { border: 0; background: none; color: var(--accent); padding: 0 4px;
 .saved { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); margin: 0; background: var(--fg); color: var(--bg); padding: 6px 14px; border-radius: 999px; opacity: 0; transition: opacity 0.2s; }
 .saved.show { opacity: 1; }
 @media (max-width: 520px) { select { min-width: 0; width: 100%; } }
+h3 { font-size: 13px; margin: 14px 0 4px; }
+h3:first-of-type { margin-top: 0; }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+label.button {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+label.button:hover { background: var(--bg-hover); }
+a { color: var(--accent); }

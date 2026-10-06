@@ -71,3 +71,38 @@ describe('pickKeeper / tabsToClose', () => {
     expect(tabsToClose([p1, p2, n], keeper, { ...S, protectPinned: false }).map((t) => t.id)).toEqual([p2.id, n.id]);
   });
 });
+
+describe('v0.2 rules', () => {
+  it('group rules make every matching URL the same page', () => {
+    const s = { ...S, groupRules: ['youtube.com/watch*'] };
+    const tabs = [tab('https://youtube.com/watch?v=1'), tab('https://www.youtube.com/watch?v=2'), tab('https://youtube.com/feed')];
+    const groups = findDuplicateGroups(tabs, s);
+    expect(groups).toHaveLength(1);
+    expect(groups[0].tabs).toHaveLength(2);
+  });
+
+  it('host aliases compare hosts as one, same path only', () => {
+    const s = { ...S, hostAliases: ['yandex.*'] };
+    expect(countDuplicates(findDuplicateGroups([tab('https://yandex.ru/maps'), tab('https://yandex.com/maps')], s))).toBe(1);
+    expect(countDuplicates(findDuplicateGroups([tab('https://yandex.ru/maps'), tab('https://yandex.com/news')], s))).toBe(0);
+    expect(countDuplicates(findDuplicateGroups([tab('https://yandex.ru/maps'), tab('https://yandex.com/maps')], S))).toBe(0);
+  });
+
+  it('title matching joins tabs with the same meaningful title', () => {
+    const s = { ...S, matchTitle: true };
+    const a = tab('https://a.com/1', { title: 'Quarterly report' });
+    const b = tab('https://a.com/2?x', { title: 'quarterly report ' });
+    const c = tab('https://a.com/3', { title: 'Other' });
+    const d = tab('https://a.com/1', { title: 'Loading' });
+    const groups = findDuplicateGroups([a, b, c, d], s);
+    expect(groups).toHaveLength(1);
+    expect(groups[0].tabs.map((t) => t.id).sort()).toEqual([a.id, b.id, d.id].sort());
+    expect(findDuplicateGroups([a, b], S)).toHaveLength(0);
+  });
+
+  it('title matching ignores empty, short and URL-like titles', () => {
+    const s = { ...S, matchTitle: true };
+    const tabs = [tab('https://a.com/1', { title: '' }), tab('https://a.com/2', { title: '' }), tab('https://x.com/a', { title: 'x.com/a' }), tab('https://x.com/b', { title: 'x.com/a' }), tab('https://q.com/1', { title: 'Hi' }), tab('https://q.com/2', { title: 'Hi' })];
+    expect(findDuplicateGroups(tabs, s)).toHaveLength(0);
+  });
+});

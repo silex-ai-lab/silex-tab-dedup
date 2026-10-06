@@ -1,6 +1,6 @@
 {
   "name": "silex-tab-dedup",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Manifest V3 Chrome extension that detects and closes duplicate tabs.",
   "license": "MIT",

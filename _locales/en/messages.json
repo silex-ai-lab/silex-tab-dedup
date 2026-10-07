@@ -65,6 +65,9 @@
   "tabsInGroup": {
     "message": "$1 tabs"
   },
+  "tabsInGroupOne": {
+    "message": "1 tab"
+  },
   "windowN": {
     "message": "Window $1"
   },

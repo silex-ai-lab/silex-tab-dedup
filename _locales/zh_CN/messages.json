@@ -65,6 +65,9 @@
   "tabsInGroup": {
     "message": "$1 个"
   },
+  "tabsInGroupOne": {
+    "message": "1 个"
+  },
   "windowN": {
     "message": "窗口 $1"
   },

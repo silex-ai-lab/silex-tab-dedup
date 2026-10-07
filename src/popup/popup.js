@@ -2,6 +2,7 @@ import { groupByHost, searchTabs } from '../core/search.js';
 import { tabCount } from '../core/sessions.js';
 import { faviconUrl, localizePage, saveSettings, t } from '../shared/store.js';
 
+const tabsLabel = (n) => (n === 1 ? t('tabsInGroupOne') : t('tabsInGroup', [String(n)]));
 const $ = (id) => document.getElementById(id);
 const VIEW_KEY = 'tab-dedup:view';
 
@@ -116,7 +117,7 @@ function renderDupes() {
   for (const g of state.groups) {
     const item = clone('groupTpl');
     item.querySelector('.host').textContent = hostOf(g.tabs[0].url);
-    item.querySelector('.n').textContent = t('tabsInGroup', [String(g.tabs.length)]);
+    item.querySelector('.n').textContent = tabsLabel(g.tabs.length);
     const tabs = item.querySelector('.tabs');
     for (const tab of g.tabs) tabs.append(tabRow(tab));
     list.append(item);
@@ -145,7 +146,7 @@ function renderAll() {
   for (const g of groupByHost(state.tabs)) {
     const item = clone('groupTpl');
     item.querySelector('.host').textContent = g.host;
-    item.querySelector('.n').textContent = t('tabsInGroup', [String(g.tabs.length)]);
+    item.querySelector('.n').textContent = tabsLabel(g.tabs.length);
     const closeGroup = /** @type {HTMLButtonElement} */ (item.querySelector('.close-group'));
     closeGroup.hidden = false;
     closeGroup.title = t('closeSite', [String(g.tabs.length)]);
@@ -167,7 +168,7 @@ function renderSessions() {
     const row = clone('sessionTpl');
     row.querySelector('.title').textContent = s.name;
     const n = tabCount(s);
-    const parts = [t('tabsInGroup', [String(n)])];
+    const parts = [tabsLabel(n)];
     if (s.windows.length > 1) parts.push(t('windowsN', [String(s.windows.length)]));
     parts.push(timeAgo(s.createdAt));
     row.querySelector('.meta').textContent = parts.join(' · ');

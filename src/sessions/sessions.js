@@ -2,6 +2,7 @@ import { exportHtml, exportJson, tabCount } from '../core/sessions.js';
 import { downloadText, today } from '../shared/download.js';
 import { faviconUrl, localizePage, t } from '../shared/store.js';
 
+const tabsLabel = (n) => (n === 1 ? t('tabsInGroupOne') : t('tabsInGroup', [String(n)]));
 const $ = (id) => document.getElementById(id);
 let sessions = [];
 
@@ -33,7 +34,7 @@ function render() {
     name.addEventListener('change', () => send('renameSession', { id: s.id, name: name.value }));
     name.addEventListener('keydown', (e) => e.key === 'Enter' && name.blur());
     const date = new Date(s.createdAt).toLocaleString(chrome.i18n.getUILanguage(), { dateStyle: 'medium', timeStyle: 'short' });
-    card.querySelector('.meta').textContent = `${t('tabsInGroup', [String(tabCount(s))])} · ${date}`;
+    card.querySelector('.meta').textContent = `${tabsLabel(tabCount(s))} · ${date}`;
     card.querySelector('.restore').addEventListener('click', async () => {
       const r = await send('restoreSession', { id: s.id });
       status(t('restored', [String(r.opened), String(r.skipped)]));

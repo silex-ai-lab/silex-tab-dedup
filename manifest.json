@@ -3,7 +3,7 @@
   "name": "__MSG_extName__",
   "short_name": "Tab Dedup",
   "description": "__MSG_extDescription__",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "default_locale": "en",
   "minimum_chrome_version": "116",
   "permissions": [

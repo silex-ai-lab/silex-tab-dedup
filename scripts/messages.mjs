@@ -28,6 +28,7 @@ const M = {
   agoMinutes: ['$1 min ago', '$1 分钟前'],
   agoHours: ['$1 h ago', '$1 小时前'],
   tabsInGroup: ['$1 tabs', '$1 个'],
+  tabsInGroupOne: ['1 tab', '1 个'],
   windowN: ['Window $1', '窗口 $1'],
   pinned: ['Pinned', '已固定'],
   active: ['Current', '当前'],
